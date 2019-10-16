@@ -11,3 +11,10 @@ n_cat : nem_cat.asm
 	./n_cat
 	rm n_cat.o
 	rm n_cat
+
+m_cat : mmap_cat.asm
+	nasm -f elf64 -o m_cat.o mmap_cat.asm
+	ld -o m_cat m_cat.o
+	./m_cat
+	rm m_cat.o
+	rm m_cat
