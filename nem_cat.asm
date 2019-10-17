@@ -1,3 +1,5 @@
+%define errnum 0xFFFFFFFE
+
 section .data
 	fname db "test.txt", 0
 	cant db "cannot open", 10
@@ -15,7 +17,7 @@ mov rsi, 0
 mov rdx, 0
 syscall
 
-cmp rax, 0xFFFFFFFE
+cmp rax, errnum
 je op_error
 
 push rax
