@@ -1,7 +1,7 @@
 section .data
 	fname db "test.txt", 0
-	msg db ""
 	cant db "cannot open", 10
+	msg db ""
 
 section .text
 	global _start
@@ -15,7 +15,7 @@ mov rsi, 0
 mov rdx, 0
 syscall
 
-cmp rax, 0x00
+cmp rax, 0xFFFFFFFE
 je op_error
 
 push rax
