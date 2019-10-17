@@ -1,7 +1,7 @@
 section .data
-	fname: db "test.txt", 0
-	msg: db ""
-	cant: db "cannot open", 10
+	fname db "test.txt", 0
+	msg db ""
+	cant db "cannot open", 10
 
 section .text
 	global _start
@@ -24,7 +24,7 @@ loop:
 	;read
 	mov rax, 0
 	pop rdi
-	lea rsi, [msg]
+	mov rsi, msg
 	mov rdx, 1
 	syscall
 	
@@ -35,7 +35,7 @@ loop:
 	;write
 	mov rax, 1
 	mov rdi, 1
-	lea rsi, [msg]
+	mov rsi, msg
 	mov rdx, 1
 	syscall
 	jmp loop
