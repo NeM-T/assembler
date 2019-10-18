@@ -1,6 +1,7 @@
 section .data
-	fname db "test.txt", 0
+	fname db "tes.txt", 0
 	cant db "cannot open", 10
+	length equ $- cant
 	errnum equ 0xFFFFFFFE
 
 section .bss
@@ -47,7 +48,7 @@ op_error:
 mov rax, 1
 mov rdi, 1
 mov rsi, cant
-mov rdx, 12
+mov rdx, length
 syscall
 
 end:

@@ -10,3 +10,8 @@ n_cat : nem_cat.asm
 	ld -o n_cat n_cat.o
 	./n_cat
 	rm n_cat.o
+
+comm: command.asm
+	nasm -f elf64 -o c.o command.asm
+	ld -o c c.o
+	rm c.o
