@@ -10,6 +10,12 @@ section .bss
 section .text
 	global _start
 
+_write:
+	mov rax, 1
+	mov rdi, 1
+	syscall
+	ret
+
 _start:
 
 ;open
@@ -37,19 +43,15 @@ loop:
 
 	push rdi
 	;write
-	mov rax, 1
-	mov rdi, 1
 	mov rsi, msg
 	mov rdx, 1
-	syscall
+	call _write
 	jmp loop
 
 op_error:
-mov rax, 1
-mov rdi, 1
 mov rsi, cant
 mov rdx, length
-syscall
+call _write
 
 end:
 ;close
