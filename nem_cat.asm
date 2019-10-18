@@ -1,9 +1,10 @@
-%define errnum 0xFFFFFFFE
-
 section .data
 	fname db "test.txt", 0
 	cant db "cannot open", 10
-	msg db ""
+	errnum equ 0xFFFFFFFE
+
+section .bss
+	msg resb 1
 
 section .text
 	global _start
