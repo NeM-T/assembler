@@ -26,7 +26,7 @@ _start:
 .printArg:
   pop rcx
   mov rsi, [rsp]
-  mov rdx, $- [rsp]
+  mov rdx, 10
   push rcx 
   jmp .print
   ret

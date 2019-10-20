@@ -6,6 +6,7 @@ section .data
 
 section .bss
 	msg resb 1
+	command resb 1
 
 section .text
 	global _start
@@ -17,15 +18,24 @@ _write:
 	ret
 
 _start:
+	pop rcx
+	add rcx, 48
+	push rcx
+	mov rsi, rsp
+	mov rdx, 1
+	call _write
 
 argloop:
-	pop rbx
-	dec rbx
-	push rbx
-	cmp rsp, 0
+	pop rcx
+	dec rcx
+	cmp rcx, 48
+	push rcx
 	je end
+
+	;read filename
 	
-	;open
+
+	open:
 	mov rax, 2
 	mov rdi, fname
 	mov rsi, 0
