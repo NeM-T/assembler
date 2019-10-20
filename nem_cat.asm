@@ -10,6 +10,12 @@ section .bss
 section .text
 	global _start
 
+_nemline: ;改行
+	mov rsi, 10
+	mov rdx, 1
+	call _write
+	ret
+
 _write:
 	mov rax, 1
 	mov rdi, 1
@@ -21,34 +27,18 @@ _start:
 	add rcx, 48
 	pop rbx
 	push rcx
+
 	mov rsi, rsp
 	mov rdx, 1
 	call _write
-	mov rsi, 10
-	mov rdx, 1
-	call _write
+	call _nemline
 
 argloop:
 	pop rcx
 	dec rcx
+	push rcx
 	cmp rcx, 48
-	push rcx
 	je end
-
-	;read filename
-	pop rcx
-	pop rbx
-	pop rdx
-	push rdx
-
-	sub rdx, rbx
-	add rbx, rdx
-	mov rbx, 0
-	sub rbx, rdx
-	
-	push rbx
-	push rcx
-	jmp open
 
 	open:
 	pop rcx
@@ -58,6 +48,7 @@ argloop:
 	mov rsi, 0
 	mov rdx, 0
 	syscall
+	push rcx
 
 	cmp rax, errnum
 	je op_error
@@ -73,7 +64,7 @@ argloop:
 		syscall
 		
 		cmp rax, 0
-		je write_newline
+		je close
 
 		push rdi
 		;write
@@ -81,20 +72,15 @@ argloop:
 		mov rdx, 1
 		call _write
 	jmp wrloop
+jmp argloop
 
-write_newline:
-	;close
+close:
 	mov rax, 3
 	mov rdi, 0
 	mov rsi, 0
 	mov rdx, 0
 	syscall
-
-	;改行
-	mov rsi, 10
-	mov rdx, 1
-	call _write
-	;jmp argloop
+	call _nemline
 
 op_error:
 	mov rsi, cant
