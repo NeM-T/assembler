@@ -1,12 +1,6 @@
 section .data
-	cant db "cannot open", 10
-	cat db "cant: ", 0
-	nosuch db ": No such file or directory", 10
-
+	cant db "open error", 10
 	length equ $- cant
-	c_length equ $- cat
-	n_length equ $- nosuch
-	
 	errnum equ 0xFFFFFFFE
 
 section .bss
