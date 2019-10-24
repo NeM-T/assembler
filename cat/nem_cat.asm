@@ -2,6 +2,10 @@ section .data
 	cant db "open error", 10
 	length equ $- cant
 	errnum equ 0xFFFFFFFE
+	sys_open equ 2
+	sys_write equ 1
+	sys_read equ 0
+	sys_close equ 3
 
 section .bss
 	msg resb 1
@@ -10,7 +14,7 @@ section .text
 	global _start
 
 _write:
-	mov rax, 1
+	mov rax, sys_write
 	mov rdi, 1
 	syscall
 	ret
@@ -21,7 +25,6 @@ _start:
 	push rcx
 
 argloop:
-	open:
 	pop rcx
 	pop rbx
 	dec rcx
@@ -30,7 +33,7 @@ argloop:
 	je end
 
 	;open
-	mov rax, 2
+	mov rax, sys_open
 	mov rdi, rbx
 	mov rsi, 0
 	mov rdx, 0
@@ -43,7 +46,7 @@ argloop:
 
 	wrloop:
 		;read
-		mov rax, 0
+		mov rax, sys_read
 		pop rdi
 		mov rsi, msg
 		mov rdx, 1
@@ -60,10 +63,8 @@ argloop:
 	jmp wrloop
 
 	close:
-	mov rax, 3
+	mov rax, sys_close
 	mov rdi, 0
-	mov rsi, 0
-	mov rdx, 0
 	syscall
 jmp argloop
 
