@@ -15,18 +15,18 @@ section .text
 
 _write:
 	mov rax, sys_write
-	mov rdi, 1
+	mov rdi, 1 ;標準出力
 	syscall
 	ret
 
 _start:
-	pop rcx
-	pop rbx
+	pop rcx ;コマンドライン引数の数
+	pop rbx ;./n_cat
 	push rcx
 
 argloop:
 	pop rcx
-	pop rbx
+	pop rbx ;コマンドライン引数
 	dec rcx
 	push rcx
 	cmp rcx, 0
@@ -39,17 +39,16 @@ argloop:
 	mov rdx, 0
 	syscall
 
+	push rax
 	cmp rax, errnum
 	je op_error
-
-	push rax
 
 	wrloop:
 		;read
 		mov rax, sys_read
 		pop rdi
-		mov rsi, msg
-		mov rdx, 1
+		mov rsi, msg ;書き込み先
+		mov rdx, 1 ;読み込む文字数
 		syscall
 		
 		cmp rax, 0
@@ -57,8 +56,8 @@ argloop:
 
 		push rdi
 		;write
-		mov rsi, msg
-		mov rdx, 1
+		mov rsi, msg ;読み込み先
+		mov rdx, 1 ;書き込む文字数
 		call _write
 	jmp wrloop
 
