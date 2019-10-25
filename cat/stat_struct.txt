@@ -1,4 +1,4 @@
-truct stat
+struct stat
   {
     __dev_t st_dev;             /* Device.  */
 #ifndef __x86_64__
