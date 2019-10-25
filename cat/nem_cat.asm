@@ -29,21 +29,21 @@ argloop:
 	pop rcx
 	pop rbx ;コマンドライン引数
 	dec rcx
-	push rbx
 	push rcx
+	push rbx
 	cmp rcx, 0
 	je end
-	
-	mov rax, sys_stat
-	pop rdi
-	mov rsi, ;struct stat *statbuf
-	syscall
 
 	;open
 	mov rax, sys_open
 	mov rdi, rbx
 	mov rsi, 0
 	mov rdx, 0
+	syscall
+
+	mov rax, sys_stat
+	pop rdi
+	mov rsi, ;struct stat *statbuf
 	syscall
 
 	push rax
