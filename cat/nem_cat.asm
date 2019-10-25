@@ -15,15 +15,15 @@ section .bss
 		st_dev resb 4 ;デバイスID
 		st_ino resb 4 ;inode_number
 		st_mode resb 4 ;アクセス保護
-		st_nlink resb 4 ;ハードリンク数
-		st_uid resb 4 ;ユーザーID
-		st_gid resb 4 ;グループID
-		st_rdev resb 4 ;デバイスID　特殊ファイルの場合
-		st_size resb 4 ;byte_size
-		st_block resb 4 ;割り当てられたブロック数
-		st_atime resb 8 ;最終アクセス時刻
-		st_mtime resb 8 ;最終修正時刻
-		st_ctime resb 8 ;最終常態変更時刻
+		st_nlink resb 1 ;ハードリンク数
+		st_uid resb 1 ;ユーザーID
+		st_gid resb 1 ;グループID
+		st_rdev resb 1 ;デバイスID　特殊ファイルの場合
+		st_size resb 1 ;byte_size
+		st_block resb 1 ;割り当てられたブロック数
+		st_atime resb 1 ;最終アクセス時刻
+		st_mtime resb 1 ;最終修正時刻
+		st_ctime resb 1 ;最終常態変更時刻
 	endstruc
 
 section .text
