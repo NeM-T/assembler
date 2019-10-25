@@ -6,7 +6,7 @@ section .data
 	sys_write equ 1
 	sys_read equ 0
 	sys_close equ 3
-	sys_stat equ 4
+	sys_fstat equ 5
 
 section .bss
 	msg resb 1
@@ -30,7 +30,6 @@ argloop:
 	pop rbx ;コマンドライン引数
 	dec rcx
 	push rcx
-	push rbx
 	cmp rcx, 0
 	je end
 
@@ -41,14 +40,15 @@ argloop:
 	mov rdx, 0
 	syscall
 
-	mov rax, sys_stat
-	pop rdi
-	mov rsi, ;struct stat *statbuf
-	syscall
-
 	push rax
 	cmp rax, errnum
 	je op_error
+
+	mov rax, sys_fstat
+	pop rdi
+	push rdi
+	mov rsi, ;struct stat *statbuf
+	syscall
 
 	wrloop:
 		;read
