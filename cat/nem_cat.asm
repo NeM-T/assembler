@@ -12,18 +12,19 @@ section .bss
 	msg resb 1
 
 	struc stat
-		st_dev resb 4 ;デバイスID
-		st_ino resb 4 ;inode_number
-		st_mode resb 4 ;アクセス保護
-		st_nlink resb 1 ;ハードリンク数
-		st_uid resb 1 ;ユーザーID
-		st_gid resb 1 ;グループID
-		st_rdev resb 1 ;デバイスID　特殊ファイルの場合
-		st_size resb 1 ;byte_size
-		st_block resb 1 ;割り当てられたブロック数
-		st_atime resb 1 ;最終アクセス時刻
-		st_mtime resb 1 ;最終修正時刻
-		st_ctime resb 1 ;最終常態変更時刻
+		.st_dev resb 8 ;デバイスID
+		.st_ino resb 8 ;inode_number
+		.st_mode resb 4 ;アクセス保護
+		.st_nlink resb 8 ;ハードリンク数
+		.st_uid resb 4 ;ユーザーID
+		.st_gid resb 4 ;グループID
+		.st_rdev resb 8 ;デバイスID　特殊ファイルの場合
+		.st_size resb 8 ;byte_size
+		.st_blksize resb 8 ;ファイルシステムのブロックサイズ
+		.st_blocks resb 8 ;割り当てられたブロック数
+		.st_atime resb 8 ;最終アクセス時刻
+		.st_mtime resb 8 ;最終修正時刻
+		.st_ctime resb 8 ;最終常態変更時刻
 	endstruc
 
 section .text
@@ -61,30 +62,25 @@ argloop:
 
 	mov rax, sys_fstat
 	pop rdi
-	push rdi
-	mov rsi, stat;struct stat *statbuf
+	mov rsi, stat ;struct stat *statbuf
 	syscall
+
+	push rdi
 
 	cmp rax, errnum
 	je op_error
 
-	wrloop:
-		;read
-		mov rax, sys_read
-		pop rdi
-		mov rsi, msg ;書き込み先
-		mov rdx, st_size ;読み込む文字数
-		syscall
-		
-		cmp rax, 0
-		je close
-
-		push rdi
-		;write
-		mov rsi, msg ;読み込み先
-		mov rdx, st_size ;書き込む文字数
-		call _write
-	jmp wrloop
+	;read
+	mov rax, sys_read
+	pop rdi
+	mov rsi, msg ;書き込み先
+	mov rdx, stat.st_size ;読み込む文字数
+	syscall
+	
+	;write
+	mov rsi, msg ;読み込み先
+	mov rdx, stat.st_size ;書き込む文字数
+	call _write
 
 	close:
 	mov rax, sys_close
