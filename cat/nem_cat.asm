@@ -14,7 +14,7 @@ section .data
 	seek_end equ 2
 
 section .bss
-	msg resb 1
+	msg resb 1024
 
 section .text
 	global _start
@@ -66,12 +66,6 @@ argloop:
 
 	push rdi 
 
-	mov rax, sys_brk
-	pop rdi
-	syscall
-
-	push rdi
-	
 	;read
 	mov rax, sys_read
 	pop rdi
