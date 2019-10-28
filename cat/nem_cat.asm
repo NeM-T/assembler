@@ -8,6 +8,7 @@ section .data
 	sys_read equ 0
 	sys_close equ 3
 	sys_lseek equ 8
+	sys_brk equ 12
 
 	seek_start equ 0
 	seek_end equ 2
@@ -61,6 +62,12 @@ argloop:
 	pop rdi
 	mov rsi, 0
 	mov rdx, seek_start
+	syscall
+
+	push rdi 
+
+	mov rax, sys_brk
+	pop rdi
 	syscall
 
 	push rdi
