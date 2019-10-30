@@ -14,7 +14,7 @@ section .data
 	seek_end equ 2
 
 section .bss
-	msg resb 1024
+	msg resb 2024
 
 section .text
 	global _start
