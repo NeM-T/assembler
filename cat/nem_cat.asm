@@ -14,7 +14,7 @@ section .data
 	seek_end equ 2
 
 section .bss
-	msg resb 2024
+	msg resb 1
 
 section .text
 	global _start
@@ -73,7 +73,7 @@ argloop:
 	pop rdx ;読み込む文字数
 	syscall
 
-	push rdx
+	push rax
 	
 	;write
 	mov rsi, msg ;読み込み先
